@@ -1,0 +1,84 @@
+<div class="navbar navbar-default">
+  <div class="navbar-form navbar-left">
+    <button class="btn btn-default" data-ui="done">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </button>
+  </div>
+  <span class="navbar-brand"><%= d.slug %></span>
+</div>
+<fieldset class="form-group">
+  <div class="col-50">
+    <label for="layer-slug" class="control-label">Slug</label>
+    <input id="layer-slug" class="form-control" type="text" readonly="readonly" value="<%= d.slug %>" name="slug">
+  </div>
+  <div class="col-50">
+    <label for="layer-group" class="control-label">Group</label>
+    <input id="layer-group" class="form-control" type="text" readonly="readonly" value="<%= d.group %>" name="group">
+  </div>
+  <a href="#" data-ui="update">Update layer identity</a>
+</fieldset>
+<fieldset class="form-group">
+  <label for="layer-img-state" class="control-label">Image State</label>
+  <input id="layer-img-state" class="form-control" type="text" value="<%= d.img_state %>" name="img_state">
+</fieldset>
+<fieldset class="form-group">
+  <div class="col-50">
+    <label for="layer-img-x" class="control-label">X</label>
+    <input id="layer-img-x" class="form-control" type="text" value="<%= d.img_x %>" name="img_x">
+  </div>
+  <div class="col-50">
+    <label for="layer-img-y" class="control-label">Y</label>
+    <input id="layer-img-y" class="form-control" type="text" value="<%= d.img_y %>" name="img_y">
+  </div>
+</fieldset>
+<fieldset class="form-group">
+  <div class="col-50">
+    <label for="layer-img-w" class="control-label">Width</label>
+    <input id="layer-img-w" class="form-control" type="text" value="<%= d.img_w %>" name="img_w">
+  </div>
+  <div class="col-50">
+    <label for="layer-img-h" class="control-label">Height</label>
+    <input id="layer-img-h" class="form-control" type="text" value="<%= d.img_h %>" name="img_h">
+  </div>
+</fieldset>
+<fieldset class="form-group">
+  <label for="layer-interactive" class="control-label">Interactive</label>
+  <input id="layer-interactive" type="checkbox" <%= d.interactive ? 'checked="checked"' : '' %> name="interactive">
+</fieldset>
+<div class="hit-area"<%= d.interactive ? '' : ' style="display:none;"' %>>
+  <fieldset class="form-group">
+    <label for="layer-hit-shape">Hit Shape</label>
+    <select id="layer-hit-shape" class="control-label" name="hit_shape">
+      <option value="rect">Rectangle</option>
+      <option value="oval" <%= d.hit_shape === 'oval' ? 'selected="selected"' : '' %>>Oval</option>
+      <option value="px" <%= d.hit_shape === 'px' ? 'selected="selected"' : '' %>>Pixels</option>
+    </select>
+  </fieldset>
+  <fieldset class="form-group">
+    <div class="col-50">
+      <label for="layer-hit-x" class="control-label">X</label>
+      <input id="layer-hit-x" class="form-control" type="text" value="<%= d.hit_x %>" name="hit_x">
+    </div>
+    <div class="col-50">
+      <label for="layer-hit-y" class="control-label">Y</label>
+      <input id="layer-hit-y" class="form-control" type="text" value="<%= d.hit_y %>" name="hit_y">
+    </div>
+  </fieldset>
+  <fieldset class="form-group">
+    <div class="col-50">
+      <label for="layer-hit-w" class="control-label">W</label>
+      <input id="layer-hit-w" class="form-control" type="text" value="<%= d.hit_w %>" name="hit_w">
+    </div>
+    <div class="col-50">
+      <label for="layer-hit-h" class="control-label">H</label>
+      <input id="layer-hit-h" class="form-control" type="text" value="<%= d.hit_h %>" name="hit_h">
+    </div>
+  </fieldset>
+</div>
+<fieldset class="form-group">
+  <label for="layer-render">Visible</label>
+  <input id="layer-render" type="checkbox" <%= d.visible ? 'checked="checked"' : '' %> name="visible">
+</fieldset>
+<fieldset class="form-group text-center">
+  <button class="btn btn-danger" data-ui="remove">Remove Layer</button>
+</fieldset>

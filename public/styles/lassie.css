@@ -1,0 +1,120 @@
+body {
+  background-color: #333;
+  font: 13px/1.4 Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+ul, li {
+  margin: 0;
+  padding: 0;
+}
+
+.dialog {
+  padding: 15px;
+}
+
+.dialog h2 {
+  margin-top: 0;
+}
+
+.dialog .error {
+  color: #a94442;
+  display: none;
+  font-size: 11px;
+}
+
+.navbar {
+  border-radius: 0;
+}
+
+.navbar-main {
+  margin-bottom: 0;
+}
+
+.list-group-item {
+  border-radius: 0 !important;
+}
+
+.form-control {
+  height: 28px;
+  padding: 2px 6px;
+}
+
+.col-50 {
+  float: left;
+  width: 50%;
+}
+
+.preview {
+  margin-left: 200px;
+}
+
+.sidebar {
+  background-color: #fff;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 200px;
+}
+
+.scene-layers {
+  left: 0;
+  overflow: auto;
+  position: relative;
+  transition: left 0.3s;
+  width: 400px;
+}
+
+.layers-list {
+  float: left;
+  width: 200px;
+}
+
+.layers-list .list-group-item {
+  padding-left: 20px;
+}
+
+li .reorder {
+  background-color: #efefef;
+  color: #999;
+  cursor: move;
+  display: block;
+  height: 38px;
+  left: 0;
+  line-height: 38px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 15px;
+}
+
+li.dragging .reorder {
+  background-color: #C00;
+  color: #fff;
+}
+
+ul.hilite {
+  border-bottom: 2px solid #C00;
+}
+
+li.hilite {
+	border-top: 2px solid #C00;
+}
+
+.layers-list .reorder:before {
+  vertical-align: middle;
+}
+
+.layers-detail {
+  float: left;
+  width: 200px;
+}
+
+.layers-detail fieldset {
+  padding: 0 10px;
+}

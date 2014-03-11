@@ -1,0 +1,7 @@
+<span class="reorder" data-ui="reorder">
+  <span class="glyphicon glyphicon-resize-vertical"></span>
+</span>
+<a href="#<%= d._id %>" data-ui="select"><%= d.slug %></a>
+<% if (d.group) { %>
+<span class="badge<%= d.visible ? '' : ' hidden' %>"><%= d.group %></span>
+<% } %>
