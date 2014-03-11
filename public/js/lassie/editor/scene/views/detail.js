@@ -5,7 +5,9 @@ define(function(require) {
   var ContainerView = require('containerview');
   var Utils = require('helpers/utils');
   var SceneState = require('../models/state');
-  var LayersListView = require('./layers');
+  var SceneLayerView = require('./layers');
+  var SceneGridView = require('./grids');
+  var SceneMatrixView = require('./matrix');
   var Lassie = require('lassie');
   
   // Implementation:
@@ -81,14 +83,17 @@ define(function(require) {
     render: function() {
       var view = this.state.view();
       
-      if (view === 'grid') {
-        this.sidebar.close();
+      if (view === 'layer') {
+        this.sidebar.open(new SceneLayerView());
+      }
+      else if (view === 'grid') {
+        this.sidebar.open(new SceneGridView());
       }
       else if (view === 'matrix') {
-        this.sidebar.close();
+        this.sidebar.open(new SceneMatrixView());
       }
       else {
-        this.sidebar.open(new LayersListView());
+        this.sidebar.close();
       }
     },
     
