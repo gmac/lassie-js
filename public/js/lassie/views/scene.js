@@ -4,7 +4,7 @@ define(function(require) {
   var PIXI = require('pixi');
   var _ = require('underscore');
   var Backbone = require('backbone');
-  var SceneModel = require('models/scene');
+  var SceneModel = require('../models/scene');
   
   // Implementation:
   
@@ -134,6 +134,8 @@ define(function(require) {
 	  this.id = id;
 	  this.model = new SceneModel({_id: id});
 	  this.layers = this.model.layers;
+	  this.grids = this.model.grids;
+	  this.matricies = this.model.matricies;
 	  
 	  this.view = new PIXI.DisplayObjectContainer();
 	  this.viewLayers = [];

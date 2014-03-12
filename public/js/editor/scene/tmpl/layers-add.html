@@ -1,0 +1,38 @@
+<h2 class="text-center"><%= d.slug ? 'Edit' : 'Add' %> Layer</h2>
+<fieldset class="form-group">
+  <label for="edit-slug" class="control-label col-sm-4">Slug<sup>*</sup></label>
+  <div class="col-sm-8">
+    <input id="edit-slug" class="form-control" type="text" value="<%= d.slug %>" name="slug">
+    <span class="error"></span>
+  </div>
+</fieldset>
+<fieldset class="form-group">
+  <label for="layer-group" class="control-label col-sm-4">Group</label>
+  <div class="col-sm-8">
+    <input id="layer-group" class="form-control" type="text" value="<%= d.group %>" name="group">
+  </div>
+</fieldset>
+<fieldset class="form-group">
+  <label for="layer-sprite-image" class="control-label col-sm-4">Sprite Image</label>
+  <div class="col-sm-8">
+    <input id="layer-sprite-image" class="form-control" type="text" value="<%= d.sprite_image %>" name="sprite_image">
+  </div>
+</fieldset>
+<fieldset class="form-group">
+  <label for="layer-sprite-sheet" class="control-label col-sm-4">Sprite Sheet</label>
+  <div class="col-sm-8">
+    <input id="layer-sprite-sheet" class="form-control" type="text" value="<%= d.sprite_sheet %>" name="sprite_sheet">
+  </div>
+</fieldset>
+<fieldset class="form-group">
+  <label for="layer-sprite-data" class="control-label col-sm-4">Sprite Data</label>
+  <div class="col-sm-8">
+    <input id="layer-sprite-data" class="form-control" type="text" value="<%= d.sprite_data %>" name="sprite_data">
+  </div>
+</fieldset>
+<fieldset class="form-group">
+  <div class="col-sm-offset-4 col-sm-8">
+    <button class="btn btn-primary" data-ui="confirm"><%= d.slug ? 'Update' : 'Add' %></button>
+    <button class="btn btn-default" data-ui="cancel">Cancel</button>
+  </div>
+</fieldset>

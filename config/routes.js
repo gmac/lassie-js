@@ -1,5 +1,7 @@
-var scenes = require('../app/controllers/scene');
-var layers = require('../app/controllers/layer');
+var scenes = require('../app/controllers/scenes');
+var layers = require('../app/controllers/layers');
+var grids = require('../app/controllers/grids');
+var matricies = require('../app/controllers/matricies');
 
 module.exports = function(app) {
   function route(path) {
@@ -20,4 +22,18 @@ module.exports = function(app) {
   app.get(route('/layers/:id'), layers.getOne);
   app.put(route('/layers/:id'), layers.update);
   app.del(route('/layers/:id'), layers.destroy);
+  
+  // Scene Grids:
+  app.get(route('/grids'), grids.getAll);
+  app.post(route('/grids'), grids.create);
+  app.get(route('/grids/:id'), grids.getOne);
+  app.put(route('/grids/:id'), grids.update);
+  app.del(route('/grids/:id'), grids.destroy);
+  
+  // Scene Matricies:
+  app.get(route('/matricies'), matricies.getAll);
+  app.post(route('/matricies'), matricies.create);
+  app.get(route('/matricies/:id'), matricies.getOne);
+  app.put(route('/matricies/:id'), matricies.update);
+  app.del(route('/matricies/:id'), matricies.destroy);
 };

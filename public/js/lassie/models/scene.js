@@ -2,6 +2,8 @@ define(function(require) {
 	
 	var Backbone = require('backbone');
 	
+	// Layer
+  // ----------------------------------------------------------------
 	var SceneLayerModel = Backbone.Model.extend({
 	  idAttribute: '_id',
 	  defaults: {
@@ -25,7 +27,7 @@ define(function(require) {
       img_w: 1,
       img_x: 0,
       img_y: 0,
-      interactive: true,
+      interactive: false,
       label: null,
       labels: [],
       map_orientation: 2,
@@ -65,17 +67,64 @@ define(function(require) {
 		}
 	});
 	
+	// Grid
+  // ----------------------------------------------------------------
+	var SceneGrid = Backbone.Model.extend({
+	  idAttribute: '_id',
+	  defaults: {
+	    data: '{}',
+	    scene_id: null,
+	    slug: null
+	  },
+	  
+	  read: function() {
+	    return JSON.parse(this.get('data'));
+	  },
+	  
+	  write: function(data) {
+	    this.save('data', JSON.stringify(data));
+	  }
+  });
+  
+	var SceneGridCollection = Backbone.Collection.extend({
+	  url: 'api/v1/grids/',
+	  model: SceneGrid
+  });
+  
+  // Matrix
+  // ----------------------------------------------------------------
+  var SceneMatrix = Backbone.Model.extend({
+	  idAttribute: '_id',
+	  defaults: {
+	    index: 0,
+	    nodes: {},
+	    polys: {},
+	    scene_id: null,
+	    slug: null
+	  }
+  });
+  
+	var SceneMatrixCollection = Backbone.Collection.extend({
+	  url: 'api/v1/matricies/',
+	  model: SceneMatrix
+  });
+  
+  // Scene
+  // ----------------------------------------------------------------
 	var SceneModel = Backbone.Model.extend({
 	  urlRoot: 'api/v1/scenes/',
 	  idAttribute: '_id',
 	  
 	  defaults: {
-	    slug: ''
+	    slug: '',
+	    grid: ''
 	  },
 	  
 	  initialize: function(data, options) {
 	    data = data || {};
 		  this.layers = new SceneLayerCollection(data.layers || [], options);
+		  this.grids = new SceneGridCollection(data.grids || [], options);
+		  this.matricies = new SceneMatrixCollection(data.matricies || [], options);
 		},
 		
 	  load: function() {
@@ -88,7 +137,14 @@ define(function(require) {
 	      this.layers.reset(data.layers);
 	      delete data.layers;
 	    }
-	    
+	    if (data.grids) {
+	      this.grids.reset(data.grids);
+	      delete data.grids;
+	    }
+	    if (data.matricies) {
+	      this.matricies.reset(data.matricies);
+	      delete data.matricies;
+	    }
 		  return data;
 		}
 	});

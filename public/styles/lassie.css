@@ -28,6 +28,10 @@ ul, li {
   font-size: 11px;
 }
 
+.detail-panel {
+  padding: 0 15px;
+}
+
 .navbar {
   border-radius: 0;
 }

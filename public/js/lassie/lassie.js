@@ -1,11 +1,11 @@
 define(function(require) {
   
   var PIXI = require('pixi');
-  var SceneView = require('views/scene');
+  var SceneView = require('./views/scene');
 
   function Lassie() {
     this.stage = new PIXI.Stage(0x000000, true);
-    this.renderer = new PIXI.autoDetectRenderer(1024, 640);
+    this.renderer = new PIXI.autoDetectRenderer(1024, 640, null, false, true);
     this.view = this.renderer.view;
     this._running = false;
   }

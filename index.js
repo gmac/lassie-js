@@ -7,6 +7,8 @@ var mongoose = require('mongoose');
 // Models
 require('./app/models/scene');
 require('./app/models/layer');
+require('./app/models/grid');
+require('./app/models/matrix');
 
 // Implementation:
 var app = express();
