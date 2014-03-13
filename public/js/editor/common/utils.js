@@ -97,9 +97,10 @@ define(function(require) {
 		},
 		
     renderOptions: function(collection) {
-      var preselect = collection.select;
+      var sel = collection.selected;
       return collection.reduce(function(memo, model) {
-        var selected = (preselect === model.get('slug')) ? 'selected="selected"' : ''; 
+        var select = (sel === model.cid || sel === model.id || sel === model.get('slug'));
+        var selected = select ? 'selected="selected"' : ''; 
         return memo += ['<option value="', model.cid, '"', selected, '>', model.get('slug'), '</option>'].join('');
       }, '');
     }

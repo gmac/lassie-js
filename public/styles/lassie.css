@@ -14,6 +14,11 @@ ul, li {
   padding: 0;
 }
 
+.editor {
+  margin: 0 auto;
+  width: 75%;
+}
+
 .dialog {
   padding: 15px;
 }
@@ -119,6 +124,10 @@ li.hilite {
   width: 200px;
 }
 
-.layers-detail fieldset {
-  padding: 0 10px;
+fieldset {
+  padding: 0 15px;
+}
+
+.detail-panel fieldset {
+  padding: 0;
 }

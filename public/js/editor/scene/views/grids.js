@@ -13,6 +13,8 @@ define(function(require) {
   // "ADD" Grid View
   // ----------------------------------------------------------------
   var GridsEditView = Modal.EditView.extend({
+    title: 'Grid',
+    
     collection: function() {
       return SceneState.get('grids');
     },
@@ -60,7 +62,7 @@ define(function(require) {
       var view = this.view = new PIXI.DisplayObjectContainer();
       var canvas = new PIXI.Graphics();
       var hit = canvas.hitArea = new PIXI.Rectangle(0, 0, 1024, 768);
-      canvas.beginFill(0x000000, 0.5);
+      canvas.beginFill(0x000000, 0.35);
       canvas.drawRect(hit.x, hit.y, hit.width, hit.height);
       canvas.endFill();
       canvas.interactive = true;
@@ -101,15 +103,15 @@ define(function(require) {
     		});
     },
     
+    // Saves grid data to the model:
     save: _.debounce(function() {
       this.model.write(this.grid.toJSON());
     }, 200),
     
+    // Renders the display of all geometry data:
     render: _.debounce(function() {
-      var self = this;
       var prevNodeViews = this.nodeViews;
       var prevPolyViews = this.polyViews;
-      var prevEdgeViews = this.edgeViews;
       
       this.nodeViews = {};
       this.polyViews = {};
@@ -123,7 +125,7 @@ define(function(require) {
         
         if (!view) {
           view = new PIXI.Graphics();
-          var hit = view.hitArea = new PIXI.Circle(0, 0, 6);
+          view.hitArea = new PIXI.Circle(0, 0, 6);
           view.__id = id;
           view.interactive = true;
           view.mousedown = _.bind(this.onNode, this);
@@ -144,7 +146,7 @@ define(function(require) {
         
         if (!view) {
           view = new PIXI.Graphics();
-          var hit = view.hitArea = new PIXI.Polygon(points);
+          view.hitArea = new PIXI.Polygon(points);
           view.__id = id;
           view.interactive = true;
           view.mousedown = _.bind(this.onPoly, this);
@@ -163,8 +165,10 @@ define(function(require) {
       });
     }, 10),
     
+    // Renders a single node display:
     renderNodeView: function(view, data) {
       view.clear();
+      view.lineStyle(1, 0xffffff, 0.5);
       view.beginFill(view.__sel ? 0xffffff : 0xff0000, 1);
       view.drawCircle(0, 0, 6);
       view.endFill();
@@ -172,6 +176,7 @@ define(function(require) {
       view.position.y = data.y;
     },
     
+    // Renders a single polygon display:
     renderPolyView: function(view, data) {
       view.clear();
       view.beginFill(view.__sel ? 0xffffff : 0xff0000, 0.25);
@@ -182,6 +187,7 @@ define(function(require) {
       view.endFill();
     },
     
+    // Renders all edges:
     renderEdgesView: function() {
       var drawn = {};
       var nodes = this.grid.nodes;
@@ -196,12 +202,14 @@ define(function(require) {
 
 						if (!drawn.hasOwnProperty(foreign.id+' '+local.id)) {
 							drawn[foreign.id+' '+local.id] = 1;
+							
 							// White:
-							edges.lineStyle(4, 0x000000, 0.06);
+							edges.lineStyle(3, 0x000000, 0.06);
 							edges.moveTo(local.x, local.y);
 							edges.lineTo(foreign.x, foreign.y);
+							
 							// Black
-							edges.lineStyle(2, 0xffffff, 1);
+							edges.lineStyle(1, 0xffffff, 1);
 							edges.moveTo(local.x, local.y);
 							edges.lineTo(foreign.x, foreign.y);
 						}
@@ -210,10 +218,12 @@ define(function(require) {
 			});
     },
     
+    // Gets the current cursor position:
     cursor: function() {
       return this.view.stage.getMousePosition();
     },
     
+    // Tests if an event counts as a double-touch:
     isDoubleTap: function(evt) {
       var doubleTap = (evt.timeStamp - this.lastTap < 250);
       this.lastTap = evt.timeStamp;
@@ -244,6 +254,7 @@ define(function(require) {
 				});
 		},
 		
+		// Starts the marquee drag selection:
     dragMarquee: function(offset) {
       var self = this;
       var marquee = new PIXI.Graphics();
@@ -257,7 +268,8 @@ define(function(require) {
 				var rect = new PIXI.Rectangle(minX, minY, maxX-minX, maxY-minY);
 				
 				marquee.clear();
-				marquee.beginFill(0x0000ff, 0.75);
+				marquee.lineStyle(1, 0xffffff, 0.5);
+				marquee.beginFill(0x00ffff, 0.25);
 				marquee.drawRect(rect.x, rect.y, rect.width, rect.height);
 				marquee.endFill();
 				return rect;
@@ -275,6 +287,7 @@ define(function(require) {
 			});
     },
     
+    // Drags shape geometry (nodes / polys):
     dragGeom: function(nodeIds, offset, callback) {
       var self = this;
 			var polys = this.grid.getPolygonsWithNodes(nodeIds);
@@ -307,6 +320,7 @@ define(function(require) {
 			}, callback);
     },
     
+    // Triggered when the canvas is clicked:
     onCanvas: function(data) {
       var pt = this.cursor();
       var evt = data.originalEvent;
@@ -321,6 +335,7 @@ define(function(require) {
 			}
     },
     
+    // Triggered when a node is clicked:
     onNode: function(data) {
       var id = data.target.__id;
 			var evt = data.originalEvent;
@@ -355,6 +370,7 @@ define(function(require) {
 			}
     },
     
+    // Triggered when a poly is clicked:
     onPoly: function(data) {
       var id = data.target.__id;
       var evt = data.originalEvent;
@@ -411,13 +427,19 @@ define(function(require) {
     template: Utils.parseTemplate(require('text!../tmpl/grids.html')),
     
     initialize: function() {
+      // Configure collection and selected model references:
       this.collection = SceneState.get('grids');
+      this.collection.selected = null;
+      
+      // Populate template and create detail view container:
       this.$el.html(this.template());
       this.detail = this.createSubcontainer('[data-ui="grid"]');
       
+      // Monitor changes:
       this.listenTo(this.collection, 'reset add remove change:slug', this.render);
     },
     
+    // Gets a reference to the currently selected model:
     selection: function() {
       return this.collection.get(this.$('#grids-select').val()) || this.collection.at(0) || null;
     },
@@ -431,11 +453,13 @@ define(function(require) {
     
     update: function() {
       var selection = this.selection();
+      
       if (!selection) {
-        this.selected = null;
+        this.collection.selected = null;
         this.detail.close();
-      } else if (selection.cid !== this.selected) {
-        this.selected = selection.cid;
+      }
+      else if (selection.cid !== this.collection.selected) {
+        this.collection.selected = selection.cid;
         this.detail.open(new GridDetailView({model: selection}));
       }
     },

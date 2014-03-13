@@ -43,7 +43,7 @@ define(function(require) {
   
   // Layer Detail View
   // ----------------------------------------------------------------
-  var LayerDetailView = Backbone.View.extend({
+  var LayerView = Backbone.View.extend({
     className: 'layers-detail',
     template: Utils.parseTemplate(require('text!../tmpl/layers-detail.html')),
     
@@ -105,7 +105,7 @@ define(function(require) {
   
   // Layer Item View
   // ----------------------------------------------------------------
-  var LayerItemView = Backbone.View.extend({
+  var LayersItemView = Backbone.View.extend({
     tagName: 'li',
     className: 'list-group-item',
     template: Utils.parseTemplate(require('text!../tmpl/layers-item.html')),
@@ -134,9 +134,9 @@ define(function(require) {
     }
   });
   
-  // Layers List View
+  // Layers View
   // ----------------------------------------------------------------
-  var LayersListView = ContainerView.extend({
+  var LayersView = ContainerView.extend({
     // model >> lassie/models/scene:SceneModel
     // collection >> lassie/models/scene:SceneLayerCollection
     className: 'scene-layers',
@@ -158,7 +158,7 @@ define(function(require) {
     },
     
     render: function() {
-      this.list.open(LayerItemView, this.collection);
+      this.list.open(LayersItemView, this.collection);
     },
 		
     events: {
@@ -170,10 +170,10 @@ define(function(require) {
     },
     
     onSelect: function(model) {
-      if (model) this.swapIn(new LayerDetailView({model: model}), '.layers-detail');
+      if (model) this.swapIn(new LayerView({model: model}), '.layers-detail');
       this.$el.css({left: model ? -200 : 0});
     }
   });
   
-  return LayersListView;
+  return LayersView;
 });

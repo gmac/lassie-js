@@ -83,7 +83,7 @@ define(function(require) {
       var view = this.state.view();
       var SceneLayerView = require('./layers');
       var SceneGridView = require('./grids');
-      var SceneMatrixView = require('./matrix');
+      var SceneMatrixView = require('./matricies');
       
       if (view === 'layer') {
         this.sidebar.open(new SceneLayerView());

@@ -10,6 +10,8 @@ define(function(require) {
   // "ADD" controller:
   // ----------------------------------------------------------------
   var SceneEditView = Modal.EditView.extend({
+    title: 'Scene',
+    
     collection: function() {
       return Scenes.instance();
     }
@@ -45,22 +47,28 @@ define(function(require) {
     
     events: {
       'click [data-ui="add"]': 'onAdd',
+      'click [data-ui="edit"]': 'onEdit',
       'click [data-ui="remove"]': 'onRemove',
-      'click [data-ui="edit"]': 'onEdit'
+      'click [data-ui="layout"]': 'onLayout'
     },
     
     onAdd: function() {
       Modal.open(new SceneEditView());
     },
     
+    onEdit: function() {
+      Modal.open(new SceneEditView({model: this.selection()}));
+    },
+    
     onRemove: function() {
       Modal.open(new SceneRemoveView({model: this.selection()}));
     },
     
-    onEdit: function() {
+    onLayout: function() {
       var id = this.selection().id;
+      
       if (id) {
-        this.collection.select = id;
+        this.collection.selected = id;
         require('editor/common/models/state').instance().setState('scene/'+id);
       }
     }

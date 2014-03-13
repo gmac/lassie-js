@@ -1,20 +1,27 @@
 <div class="navbar-main"></div>
-<div class="panel panel-default">
+<div class="panel panel-default editor">
   <div class="navbar navbar-default">
     <div class="navbar-form navbar-right">
       <button class="btn btn-default" data-ui="add">
         <span class="glyphicon glyphicon-plus"></span>
       </button>
     </div>
-    <span class="navbar-brand">Scenes</span> 
+    <label for="scene-list" class="navbar-brand">Scenes</label> 
   </div>
   
   <fieldset class="form-group">
-    <label for="scene-list">Scene</label>
-    <select id="scene-list" class="form-control"></select>
+    <div class="input-group">
+      <select id="scene-list" class="form-control"></select>
+      <span class="input-group-btn">
+        <button class="btn btn-default" data-ui="edit">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+      </span>
+    </div>
   </fieldset>
+  
   <fieldset class="form-group">
-    <button class="btn btn-default" data-ui="edit">Edit</button>
-    <button class="btn btn-danger" data-ui="remove">Remove</button>
+    <button class="btn btn-primary" data-ui="layout">Edit</button>
+    <button class="btn btn-default" data-ui="remove">Remove</button>
   </fieldset>
 </div>

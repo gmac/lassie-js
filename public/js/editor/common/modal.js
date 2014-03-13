@@ -10,9 +10,11 @@ define(function(require) {
   var EditView = Backbone.View.extend({
     className: 'form-horizontal dialog dialog-add',
     template: Utils.parseTemplate(require('text!./tmpl/modal-edit.html')),
-
+    title: '',
+    
     initialize: function() {
       var data = this.model ? this.model.toJSON() : {};
+      data.title = this.title;
       this.$el.html(this.template(data));
     },
     
@@ -57,7 +59,7 @@ define(function(require) {
         if (this.model) {
           this.model.save(data);
         } else {
-          this.collection().select = data.slug;
+          this.collection().selected = data.slug;
           this.collection().create(data);
         }
         
