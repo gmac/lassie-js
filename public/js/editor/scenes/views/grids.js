@@ -7,33 +7,34 @@ define(function(require) {
   var ContainerView = require('containerview');
   var Modal = require('editor/common/modal');
   var Utils = require('editor/common/utils');
-  var SceneState = require('../models/state');
+  var LayoutState = require('../models/state');
   var GridModel = require('../models/grid');
+  var BaseEditorView = require('./editor');
   
-  // "ADD" Grid View
+  // Edit Modal View
   // ----------------------------------------------------------------
   var GridsEditView = Modal.EditView.extend({
     title: 'Grid',
     
     collection: function() {
-      return SceneState.get('grids');
+      return LayoutState.get('grids');
     },
     
     serialize: function() {
       return {
         slug: this.$('#edit-slug').val(),
-        scene_id: SceneState.get('sceneId')
+        scene_id: LayoutState.get('sceneId')
       };
     }
   });
   
-  // "REMOVE" Grid View
+  // Remove Modal View
   // ----------------------------------------------------------------
   var GridsRemoveView = Modal.RemoveView;
   
   // Grid Detail View
   // ----------------------------------------------------------------
-  var GridDetailView = ContainerView.extend({
+  var GridDetailView = BaseEditorView.extend({
     template: Utils.parseTemplate(require('text!../tmpl/grid.html')),
     
     initialize: function() {
@@ -46,8 +47,7 @@ define(function(require) {
       this.grid.reset(this.model.read());
       
       // Configure view setup:
-      this.nodeViews = {};
-      this.polyViews = {};
+      this.initEditor();
       this.setView();
       this.setKeyboard();
       
@@ -58,18 +58,16 @@ define(function(require) {
     },
     
     setView: function() {
+      this.nodeViews = {};
+      this.polyViews = {};
       this.edges = new PIXI.Graphics();
-      var view = this.view = new PIXI.DisplayObjectContainer();
-      var canvas = new PIXI.Graphics();
-      var hit = canvas.hitArea = new PIXI.Rectangle(0, 0, 1024, 768);
-      canvas.beginFill(0x000000, 0.35);
-      canvas.drawRect(hit.x, hit.y, hit.width, hit.height);
-      canvas.endFill();
-      canvas.interactive = true;
-      canvas.mousedown = _.bind(this.onCanvas, this);
-      view.addChild(canvas);
-      view.addChild(this.edges);
-      SceneState.get('sceneView').view.addChild(view);
+      this.view.addChild(this.edges);
+      
+      this.addCanvas();
+      this.canvas.interactive = true;
+      this.canvas.mousedown = _.bind(this.onCanvas, this);
+      
+      this.addLayoutView();
     },
     
     setKeyboard: function() {
@@ -218,11 +216,6 @@ define(function(require) {
 			});
     },
     
-    // Gets the current cursor position:
-    cursor: function() {
-      return this.view.stage.getMousePosition();
-    },
-    
     // Tests if an event counts as a double-touch:
     isDoubleTap: function(evt) {
       var doubleTap = (evt.timeStamp - this.lastTap < 250);
@@ -230,30 +223,6 @@ define(function(require) {
       return doubleTap;
     },
     
-    // Manages a click-and-drag sequence behavior.
-		// Injects a localized event offset into the behavior handlers.
-		drag: function(onMove, onRelease, callback) {
-			var self = this;
-			var dragged = false;
-
-			$(document)
-				.on('mouseup', function() {
-					$(document).off('mouseup mousemove');
-					if ( typeof onRelease === 'function' ) {
-						onRelease(self.cursor());
-					}
-					if ( typeof callback === 'function' ) {
-						callback(dragged);
-					}
-					return false;
-				})
-				.on('mousemove', function() {
-					dragged = true;
-					onMove(self.cursor());
-					return false;
-				});
-		},
-		
 		// Starts the marquee drag selection:
     dragMarquee: function(offset) {
       var self = this;
@@ -389,33 +358,18 @@ define(function(require) {
 				}
 			}
     },
-    
-    events: {
-      'click [data-ui="join"]': 'onJoin',
-      'click [data-ui="break"]': 'onBreak',
-      'click [data-ui="polygon"]': 'onPolygon',
-      'click [data-ui="remove"]': 'onRemove'
+
+    uiPrompt: function(action) {
+      switch (action) {
+        case 'join': return this.gridApi.joinNodes();
+        case 'break': return this.gridApi.splitNodes();
+        case 'polygon': return this.gridApi.makePolygon();
+        case 'remove': return Modal.open(new GridsRemoveView({model: this.model}));
+      }
     },
-    
-    onJoin: function() {
-      this.gridApi.joinNodes();
-    },
-    
-    onBreak: function() {
-      this.gridApi.splitNodes();
-    },
-    
-    onPolygon: function() {
-      this.gridApi.makePolygon();
-    },
-    
-    onRemove: function() {
-      Modal.open(new GridsRemoveView({model: this.model}));
-    },
-    
-    remove: function() {
-      ContainerView.prototype.remove.call(this);
-      this.view.parent.removeChild(this.view);
+
+    dispose: function() {
+      this.removeLayoutView();
       $(window).off('keydown focus blur');
     }
   });
@@ -428,7 +382,7 @@ define(function(require) {
     
     initialize: function() {
       // Configure collection and selected model references:
-      this.collection = SceneState.get('grids');
+      this.collection = LayoutState.get('grids');
       this.collection.selected = null;
       
       // Populate template and create detail view container:

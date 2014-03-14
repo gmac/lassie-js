@@ -20,7 +20,6 @@ define(function(require) {
       var state = this.model.getState();
       this.$('li').removeClass('active');
       this.$('[data-ui="'+state+'"]').parent().addClass('active');
-      console.log(state);
     },
     
     events: {

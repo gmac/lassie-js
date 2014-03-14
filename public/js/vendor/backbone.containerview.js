@@ -214,9 +214,16 @@
     remove: function () {
       var result = ViewPrototype.remove.apply(this, arguments);
       this.close();
+      this.dispose();
       return result;
+    },
+    
+    // Callback hook performed after the view is removed:
+    // Useful for final disposal of any view configuration.
+    dispose: function() {
+      return this;
     }
-
+    
     // STATIC API:
   }, {
     // Convenience method for creating a new container view:

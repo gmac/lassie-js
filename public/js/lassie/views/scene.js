@@ -69,23 +69,6 @@ define(function(require) {
       }
     },
     
-    drawHitArea: function(enable) {
-      if (this.hit) {
-        this.hit.parent.removeChild(this.hit);
-        this.hit = null;
-      }
-      
-      if (this.view && this.view.hitArea) {
-        var shape = this.hit = new PIXI.Graphics();
-        var method = this.model.get('hit_shape') === 'oval' ? 'drawEllipse' : 'drawRect';
-        var hit = this.view.hitArea;
-        shape.beginFill(0xFF0000, 0.5);
-        shape[method](hit.x, hit.y, hit.width, hit.height);
-        shape.endFill();
-        this.view.addChild(shape);
-      }
-    },
-    
     update: function() {
       var model = this.model;
       var view = this.view;
@@ -98,23 +81,15 @@ define(function(require) {
         view.scale.y = attrs.img_h;
         view.visible = attrs.visible;
         view.interactive = attrs.interactive;
-
-        if (attrs.interactive && attrs.hit_shape === 'oval') {
-          // Add ellipse hit area:
-          var w = attrs.hit_w / 2;
-          var h = attrs.hit_h / 2;
-          view.hitArea = new PIXI.Ellipse(attrs.hit_x+w, attrs.hit_y+h, w, h);
-        }
-        else if (attrs.interactive && attrs.hit_shape === 'rect') {
-          // Add rectangular hit area:
-          view.hitArea = new PIXI.Rectangle(attrs.hit_x, attrs.hit_y, attrs.hit_w, attrs.hit_h);
-        }
-        else {
+        view.buttonMode = true;
+        
+        if (attrs.interactive && attrs.hit_shape !== 'px') {
+          var Shape = (attrs.hit_shape === 'oval') ? PIXI.Ellipse : PIXI.Rectangle;
+          view.hitArea = new Shape(attrs.hit_x, attrs.hit_y, attrs.hit_w, attrs.hit_h);
+        } else {
           // Remove hit area:
           view.hitArea = null;
         }
-        
-        this.drawHitArea();
       }
     },
     

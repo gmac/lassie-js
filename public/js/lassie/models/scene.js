@@ -17,12 +17,12 @@ define(function(require) {
       float_x: 0,
       float_y: 0,
       group: null,
-      hit_shape: null,
-      hit_h: 0,
-      hit_w: 0,
+      hit_shape: 'rect',
+      hit_h: 100,
+      hit_w: 100,
       hit_x: 0,
       hit_y: 0,
-      img_state: 'rect',
+      img_state: null,
       img_h: 1,
       img_w: 1,
       img_x: 0,
@@ -30,7 +30,7 @@ define(function(require) {
       interactive: false,
       label: null,
       labels: [],
-      map_orientation: 2,
+      map_orientation: 5,
       map_x: 0,
       map_y: 0,
       order: 0,
@@ -41,6 +41,24 @@ define(function(require) {
       sprite_sheet: null,
       sprite_data: null,
       visible: true
+	  },
+	  
+	  hitRect: function() {
+	    var attr = this.attributes;
+      return {
+        x: attr.img_x + attr.hit_x * attr.img_w,
+        y: attr.img_y + attr.hit_y * attr.img_h,
+        width: attr.hit_w * attr.img_w,
+        height: attr.hit_h * attr.img_h
+      };
+	  },
+	  
+	  floatPt: function() {
+	    var attr = this.attributes;
+	    return {
+        x: attr.img_x + attr.float_x * attr.img_w,
+        y: attr.img_y + attr.float_y * attr.img_h
+      };
 	  }
 	});
 	
@@ -96,11 +114,17 @@ define(function(require) {
   var SceneMatrix = Backbone.Model.extend({
 	  idAttribute: '_id',
 	  defaults: {
-	    index: 0,
-	    nodes: {},
-	    polys: {},
+	    axis: 'y',
+	    color1: 0x000000,
+	    color2: 0x000000,
+	    scale1: 1,
+	    scale2: 1,
 	    scene_id: null,
-	    slug: null
+	    slug: null,
+	    x1: 100,
+	    x2: 200,
+	    y1: 100,
+	    y2: 200
 	  }
   });
   

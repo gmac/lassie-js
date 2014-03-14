@@ -1,10 +1,10 @@
 define(function(require) {
   
-  var InventoryView = require('./views/inventory');
+  var CombosView = require('./views/combos');
   
   return {
     start: function(state, container) {
-      container.open(new InventoryView());
+      container.open(new CombosView());
     },
     
     stop: function() {

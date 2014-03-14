@@ -1,7 +1,10 @@
 define(function(require) {
+  
+  var InventoriesView = require('./views/inventories');
+  
   return {
     start: function(state, container) {
-      container.close();
+      container.open(new InventoriesView());
     },
     
     stop: function() {

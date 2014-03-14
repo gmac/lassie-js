@@ -40,7 +40,8 @@ define(function(require) {
       
       function update() {
         if (self._running) {
-          requestAnimFrame(update);
+          //requestAnimFrame(update);
+          setTimeout(update, 1000);
           self.renderer.render(self.stage);
         }
       }

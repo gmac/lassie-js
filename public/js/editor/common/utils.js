@@ -61,6 +61,51 @@ define(function(require) {
 		drag(evt.pageY);
 	};
 	
+	var formCaptureMixin = {
+    uiPrompt: function(prompt) {},
+    
+    events: {
+      'click [data-ui]': '_ui',
+      'change select': '_change',
+      'change input[type="checkbox"]': '_change',
+      'blur input[type="text"]': '_change'
+    },
+    
+    _change: function(evt) {
+      var $input = this.$(evt.currentTarget);
+      var dataType = $input.attr('data-type');
+      var name = $input.attr('name');
+      var type = $input.attr('type');
+      var value = $input.val();
+      
+      if (type === 'checkbox') {
+        // Capture checkbox:
+        value = $input.prop('checked');
+      }
+      else if (dataType === 'number') {
+        // Parse and validate number:
+        value = parseFloat(value);
+        
+        // Default invalid input:
+        if (isNaN(value) || !isFinite(value)) {
+          return $input.val(this.model.get(name));
+        }
+      }
+      
+      // Set field to model, and then save any changes:
+      this.model.set(name, value);
+      if (_.size(this.model.changed)) {
+        this.model.save();
+      }
+    },
+    
+    _ui: function(evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      this.uiPrompt(this.$(evt.currentTarget).attr('data-ui'));
+    }
+  };
+  
   return {
     // Parses HTML into a template function with data scoped to variable "d":
     // NOTE: using variable-scoped data significantly increases template performance.
@@ -84,6 +129,20 @@ define(function(require) {
         return instance;
       };
 
+      return Constructor;
+    },
+    
+    // Mixin for adding form-capture behaviors to the view:
+    formCapture: function(Constructor) {
+      var prototype = Constructor.prototype;
+      _.each(formCaptureMixin, function(member, name) {
+        if (name === 'events') {
+          prototype.events = _.extend(prototype.events || {}, member);
+        } else if (!prototype[name]) {
+          prototype[name] = member;
+        }
+      });
+      
       return Constructor;
     },
     

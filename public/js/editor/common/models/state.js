@@ -9,14 +9,14 @@ define(function(require) {
   
   var finiteStates = _.map([
     {
-      id: 'scene-list',
-      route: 'scene',
-      module: 'scene/main'
+      id: 'scenes',
+      route: 'scenes',
+      module: 'scenes/main'
     },
     {
       id: 'scene-detail',
-      route: 'scene/:id',
-      module: 'scene/main'
+      route: 'scenes/:id',
+      module: 'scenes/main'
     },
     {
       id: 'setup',
@@ -24,19 +24,19 @@ define(function(require) {
       module: 'setup/main'
     },
     {
-      id: 'item',
-      route: 'item',
-      module: 'item/main'
+      id: 'items',
+      route: 'items',
+      module: 'items/main'
     },
     {
-      id: 'inventory',
-      route: 'inventory',
-      module: 'inventory/main'
+      id: 'inventories',
+      route: 'inventories',
+      module: 'inventories/main'
     },
     {
-      id: 'combo',
-      route: 'combo',
-      module: 'combo/main'
+      id: 'combos',
+      route: 'combos',
+      module: 'combos/main'
     }
   ], function(fs) {
     fs.regex = routeToRegExp(fs.route);
@@ -100,7 +100,12 @@ define(function(require) {
         return state.match(fs.regex);
       });
     },
-
+    
+    /*setStateById: function(id) {
+      var fs = _.findWhere(finiteStates, {id: id});
+      if (fs) this.setState(fs.route);
+    },*/
+    
     // Sets a new state key:
     setState: function(state) {
       // Trim any leading and trailing slashes on state:

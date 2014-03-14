@@ -1,0 +1,53 @@
+<fieldset class="form-group">
+  <label for="matrix-axis" class="control-label">Axis</label>
+  <select id="matrix-axis" class="form-control" name="axis">
+    <option value="x" <% if (d.axis === 'x'){ %>selected="selected"<% } %>>Horizontal</option>
+    <option value="y" <% if (d.axis === 'y'){ %>selected="selected"<% } %>>Vertical</option>
+    <option value="r" <% if (d.axis === 'r'){ %>selected="selected"<% } %>>Radial</option>
+  </select>
+</fieldset>
+<fieldset class="form-group">
+  <div class="col-50">
+    <label for="matrix-x1" class="control-label">X-1</label>
+    <input id="matrix-x1" class="form-control" type="text" value="<%= d.x1 %>" name="x1" data-type="number">
+  </div>
+  <div class="col-50">
+    <label for="matrix-y1" class="control-label">Y-1</label>
+    <input id="matrix-y1" class="form-control" type="text" value="<%= d.y1 %>" name="y1" data-type="number">
+  </div>
+</fieldset>
+<fieldset class="form-group">
+  <div class="col-50">
+    <label for="matrix-x2" class="control-label">X-2</label>
+    <input id="matrix-x2" class="form-control" type="text" value="<%= d.x2 %>" name="x2" data-type="number">
+  </div>
+  <div class="col-50">
+    <label for="matrix-y2" class="control-label">Y-2</label>
+    <input id="matrix-y2" class="form-control" type="text" value="<%= d.y2 %>" name="y2" data-type="number">
+  </div>
+</fieldset>
+<hr>
+<fieldset class="form-group">
+  <div class="col-50">
+    <label for="matrix-scale1" class="control-label">Scale-1</label>
+    <input id="matrix-scale1" class="form-control" type="text" value="<%= d.scale1 %>" name="scale1" data-type="number">
+  </div>
+  <div class="col-50">
+    <label for="matrix-scale2" class="control-label">Scale-2</label>
+    <input id="matrix-scale2" class="form-control" type="text" value="<%= d.scale2 %>" name="scale2" data-type="number">
+  </div>
+</fieldset>
+<fieldset class="form-group">
+  <div class="col-50">
+    <label for="matrix-color1" class="control-label">Color-1</label>
+    <input id="matrix-color1" class="form-control" type="text" value="<%= d.color1 %>" name="scale1">
+  </div>
+  <div class="col-50">
+    <label for="matrix-color2" class="control-label">Color-2</label>
+    <input id="matrix-color2" class="form-control" type="text" value="<%= d.color2 %>" name="scale2">
+  </div>
+</fieldset>
+<hr>
+<fieldset class="form-group text-center">
+  <button class="btn btn-danger" data-ui="remove">Remove Matrix</button>
+</fieldset>

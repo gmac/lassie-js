@@ -69,7 +69,7 @@ define(function(require) {
       
       if (id) {
         this.collection.selected = id;
-        require('editor/common/models/state').instance().setState('scene/'+id);
+        require('editor/common/models/state').instance().setState('scenes/'+id);
       }
     }
   });

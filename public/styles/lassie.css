@@ -14,6 +14,19 @@ ul, li {
   padding: 0;
 }
 
+#layout-sidebar {
+  background-color: #fff;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: absolute;
+  width: 200px;
+}
+
+#layout-preview {
+  margin-left: 200px;
+}
+
 .editor {
   margin: 0 auto;
   width: 75%;
@@ -57,18 +70,6 @@ ul, li {
 .col-50 {
   float: left;
   width: 50%;
-}
-
-.preview {
-  margin-left: 200px;
-}
-
-.sidebar {
-  background-color: #fff;
-  left: 0;
-  overflow: hidden;
-  position: absolute;
-  width: 200px;
 }
 
 .scene-layers {

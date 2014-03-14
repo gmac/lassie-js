@@ -2,15 +2,18 @@ define(function(require) {
   
   var Utils = require('editor/common/utils');
   
-  var SceneStateModel = Backbone.Model.extend({
+  var LayoutStateModel = Backbone.Model.extend({
     defaults: {
+      grids: null,
+      layers: null,
+      layoutManager: null,
+      matricies: null,
       sceneId: null,
       sceneView: null,
       sceneModel: null,
-      layers: null,
-      grids: null,
-      matricies: null,
-      viewState: 'layer'
+      viewState: 'layer',
+      viewWidth: 0,
+      viewHeight: 0
     },
     
     view: function(view) {
@@ -24,9 +27,9 @@ define(function(require) {
     }
   });
   
-  SceneStateModel.get = function(attr) {
+  LayoutStateModel.get = function(attr) {
     return this.instance().get(attr);
   };
   
-  return Utils.singleton(SceneStateModel);
+  return Utils.singleton(LayoutStateModel);
 });
