@@ -4,8 +4,13 @@
 	<title>Lassie</title>
 </head>
 <body>
+  <form method='post' action='/api/v1/uploads' enctype='multipart/form-data'>
+  <input type='file' name='image'/>
+  <input type='submit' />
+  </form>
+  
 	<div id="lassie"></div>
-	<script src="js/vendor/require-config.js"></script>
-	<script src="js/vendor/require.js" data-main="lassie/lassie"></script>
+	<!--script src="js/vendor/require-config.js"></script>
+	<script src="js/vendor/require.js" data-main="lassie/lassie"></script-->
 </body>
 </html>

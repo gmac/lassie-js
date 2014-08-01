@@ -1,5 +1,5 @@
 {
-  "name": "lassie.server",
+  "name": "lassie-js",
   "version": "0.0.0",
   "description": "ERROR: No README.md file found!",
   "main": "index.js",
@@ -10,14 +10,11 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
-    "restify": "~2.6.1",
     "mongoose": "~3.8.7",
     "underscore": "~1.6.0",
     "q": "~1.0.0",
     "express": "~3.4.8",
-    "backbone": "~1.1.1",
-    "jQuery": "~1.7.4",
-    "requirejs": "~2.1.11"
+    "jade": "~1.3.0"
   },
   "devDependencies": {
     "mocha": "~1.17.1",

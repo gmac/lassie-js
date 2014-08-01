@@ -1,0 +1,36 @@
+doctype html
+html(lang="en")
+  head
+    title Lassie Editor
+    link(rel="stylesheet", href="/css/bootstrap.css")
+    link(rel="stylesheet", href="/css/colorbox.css")
+    link(rel="stylesheet", href="/css/lassie.css")
+  body
+    #layout-menu.navbar.navbar-default
+      ul.nav.navbar-nav
+        li.back
+          a(href="/projects/#{project_slug}/scenes")
+            span.glyphicon.glyphicon-chevron-left
+            span Scenes
+          
+        li
+          a(href="#layer", data-ui="layer") Layers
+          
+        li
+          a(href="#grid", data-ui="grid") Grids
+          
+        li
+          a(href="#matrix", data-ui="matrix") Matrices
+          
+        li
+          a(href="#interactive", data-ui="interactive") Interactive
+
+    #layout
+      #layout-sidebar
+      #layout-preview
+    
+
+    script().
+      var lassie_scene = '#{scene_id}';
+    script(src="/js/vendor/require-config.js")
+    script(src="/js/vendor/require.js", data-main="editor/layout/main")

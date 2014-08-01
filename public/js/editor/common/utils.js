@@ -107,6 +107,11 @@ define(function(require) {
   };
   
   return {
+    // Assembles and API endpoint path:
+    apiPath: function(endpoint) {
+      return location.href.match(/^.*\/\/[^\/]+/g)[0] + '/api/v1/' + endpoint;
+    },
+    
     // Parses HTML into a template function with data scoped to variable "d":
     // NOTE: using variable-scoped data significantly increases template performance.
     parseTemplate: function(html) {

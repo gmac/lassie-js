@@ -9,6 +9,21 @@ define(function(require) {
   
   var finiteStates = _.map([
     {
+      id: 'setup',
+      route: 'setup',
+      module: 'setup/main'
+    },
+    {
+      id: 'assets',
+      route: 'assets',
+      module: 'assets/main'
+    },
+    {
+      id: 'projects',
+      route: 'projects',
+      module: 'projects/main'
+    },
+    {
       id: 'scenes',
       route: 'scenes',
       module: 'scenes/main'
@@ -17,11 +32,6 @@ define(function(require) {
       id: 'scene-detail',
       route: 'scenes/:id',
       module: 'scenes/main'
-    },
-    {
-      id: 'setup',
-      route: 'setup',
-      module: 'setup/main'
     },
     {
       id: 'items',
@@ -110,7 +120,7 @@ define(function(require) {
     setState: function(state) {
       // Trim any leading and trailing slashes on state:
       state = state.replace(/^\/*(.+?)\/*$/, '$1');
-
+      
       // Find corresponding finite state:
       var fs = this.findState(state);
 
@@ -141,7 +151,10 @@ define(function(require) {
     },
     
     start: function() {
-      Backbone.history.start();
+      Backbone.history.start({
+        pushState: true,
+        root: ['/', location.href.match(/projects\/[^ \/]+/g)[0], '/'].join('')
+      });
     }
   });
   

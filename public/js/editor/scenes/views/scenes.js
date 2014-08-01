@@ -1,77 +1,47 @@
 define(function(require) {
   
-  var Backbone = require('backbone');
-  var ContainerView = require('containerview');
+  var EditorView = require('editor/common/views/editor');
+  var project = require('editor/common/models/project');
   var Modal = require('editor/common/modal');
   var Utils = require('editor/common/utils');
-  var NavbarView = require('editor/common/views/navbar');
   var Scenes = require('../models/scene');
-  
+
   // "ADD" controller:
   // ----------------------------------------------------------------
   var SceneEditView = Modal.EditView.extend({
     title: 'Scene',
+    params: {project_id: project.id},
     
     collection: function() {
       return Scenes.instance();
     }
   });
   
-  // "REMOVE" controller:
+  // Scene Detail view:
   // ----------------------------------------------------------------
-  var SceneRemoveView = Modal.RemoveView;
-  
-  // Scene view:
-  // ----------------------------------------------------------------
-  var ScenesView = ContainerView.extend({
-    className: 'scene-list',
-    template: Utils.parseTemplate(require('text!../tmpl/scenes.html')),
+  var SceneDetailView = Backbone.View.extend({
+    template: Utils.parseTemplate(require('text!../tmpl/detail.html')),
     
-    initialize: function(options) {
-      this.collection = Scenes.instance();
-      this.$el.html(this.template());
-      this.swapIn(new NavbarView(), '.navbar-main');
-      
-      this.listenTo(this.collection, 'reset add remove', this.render);
-    },
-    
-    render: function() {
-      this.$('#scene-list').html(Utils.renderOptions(this.collection));
-      this.$('[data-ui="edit"]').prop('disabled', !this.collection.length);
-      this.$('[data-ui="remove"]').prop('disabled', !this.collection.length);
-    },
-    
-    selection: function() {
-      return this.collection.get(this.$('#scene-list').val());
+    initialize: function() {
+      this.$el.html(this.template(this.model.toJSON()));
     },
     
     events: {
-      'click [data-ui="add"]': 'onAdd',
-      'click [data-ui="edit"]': 'onEdit',
-      'click [data-ui="remove"]': 'onRemove',
       'click [data-ui="layout"]': 'onLayout'
     },
     
-    onAdd: function() {
-      Modal.open(new SceneEditView());
-    },
-    
-    onEdit: function() {
-      Modal.open(new SceneEditView({model: this.selection()}));
-    },
-    
-    onRemove: function() {
-      Modal.open(new SceneRemoveView({model: this.selection()}));
-    },
-    
     onLayout: function() {
-      var id = this.selection().id;
-      
-      if (id) {
-        this.collection.selected = id;
-        require('editor/common/models/state').instance().setState('scenes/'+id);
-      }
+      location.href = location.href + '/' + this.model.get('slug');
     }
+  });
+  
+  // Scene view:
+  // ----------------------------------------------------------------
+  var ScenesView = EditorView.extend({
+    className: 'scene-list',
+    editView: SceneEditView,
+    detailView: SceneDetailView,
+    collection: Scenes.instance()
   });
   
   return ScenesView;

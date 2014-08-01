@@ -4,12 +4,17 @@ define(function(require) {
   var _ = require('underscore');
   var Backbone = require('backbone');
   var ContainerView = require('containerview');
-  
+
   // Implementation:
   function LassieEditor() {
     var container = ContainerView.create('#lassie');
-    var appState = require('editor/common/models/state').instance();
+    var appState = require('./common/models/state').instance();
+    var NavBar = require('./common/views/navbar'); 
     var currentApp;
+    
+    // Create navbar:
+    container.navbar = (new NavBar()).$el;
+    container.$el.before(container.navbar);
     
     appState.on('change:state', function() {
       var state = appState.toJSON();
@@ -26,6 +31,6 @@ define(function(require) {
     
     appState.start();
   }
-
+  
   return new LassieEditor();
 });

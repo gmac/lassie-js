@@ -4,6 +4,7 @@ define(function(require) {
   
   return {
     start: function(state, container) {
+      container.navbar.show();
       container.open(new InventoriesView());
     },
     

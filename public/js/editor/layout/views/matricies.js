@@ -8,7 +8,7 @@ define(function(require) {
   var Modal = require('editor/common/modal');
   var Utils = require('editor/common/utils');
   var LayoutState = require('../models/state');
-  var BaseEditorView = require('./editor');
+  var WorkspaceView = require('./workspace');
   
   // "ADD" Matrix View
   // ----------------------------------------------------------------
@@ -33,7 +33,7 @@ define(function(require) {
   
   // Matrix View
   // ----------------------------------------------------------------
-  var MatrixView = BaseEditorView.extend({
+  var MatrixView = WorkspaceView.extend({
     template: Utils.parseTemplate(require('text!../tmpl/matrix.html')),
     
     initialize: function() {

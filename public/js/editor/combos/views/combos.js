@@ -4,7 +4,6 @@ define(function(require) {
   var ContainerView = require('containerview');
   var Modal = require('editor/common/modal');
   var Utils = require('editor/common/utils');
-  var NavbarView = require('editor/common/views/navbar');
   
   var CombosView = ContainerView.extend({
     className: 'lassie-combos',
@@ -12,7 +11,6 @@ define(function(require) {
     
     initialize: function() {
       this.$el.html(this.template());
-      this.swapIn(new NavbarView(), '[data-ui="navbar"]');
     }
   });
   

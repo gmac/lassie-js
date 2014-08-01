@@ -1,5 +1,6 @@
 define(function(require) {
   
+  var Backbone = require('backbone');
   var Utils = require('editor/common/utils');
   
   var LayoutStateModel = Backbone.Model.extend({

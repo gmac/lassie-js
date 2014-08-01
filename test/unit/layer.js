@@ -4,8 +4,8 @@ var request = require('superagent');
 var mocha = require('mocha');
 var chai = require('chai');
 var expect = chai.expect;
-var Scene = require('mongoose').model('Scene');
-var Layer = require('mongoose').model('Layer');
+var Scene = require('../../app/models/scene');
+var Layer = require('../../app/models/layer');
 
 module.exports = function(url) {
   url += '/layers';
@@ -14,7 +14,7 @@ module.exports = function(url) {
   
   describe('Layer Routes', function() {
     beforeEach(function(done) {
-      Scene.create({}, function(err, scene) {
+      Scene.create({slug: 'test'}, function(err, scene) {
         sceneId = scene._id;
         done();
       });

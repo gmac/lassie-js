@@ -2,6 +2,7 @@ define(function(require) {
   
   // Imports:
   var $ = require('jquery.colorbox');
+  var _ = require('underscore');
   var Backbone = require('backbone');
   var Utils = require('./utils');
   
@@ -10,6 +11,7 @@ define(function(require) {
   var EditView = Backbone.View.extend({
     className: 'form-horizontal dialog dialog-add',
     template: Utils.parseTemplate(require('text!./tmpl/modal-edit.html')),
+    params: {},
     title: '',
     
     initialize: function() {
@@ -60,7 +62,8 @@ define(function(require) {
           this.model.save(data);
         } else {
           this.collection().selected = data.slug;
-          this.collection().create(data);
+          console.log(this.params);
+          this.collection().create(_.extend(data, this.params));
         }
         
         Modal.close();

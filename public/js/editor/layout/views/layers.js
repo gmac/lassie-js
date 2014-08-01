@@ -7,7 +7,7 @@ define(function(require) {
   var Modal = require('editor/common/modal');
   var Utils = require('editor/common/utils');
   var LayoutState = require('../models/state');
-  var BaseEditorView = require('./editor');
+  var WorkspaceView = require('./workspace');
   
   // Implementation:
   
@@ -45,7 +45,7 @@ define(function(require) {
   
   // Layer Detail View
   // ----------------------------------------------------------------
-  var LayerView = BaseEditorView.extend({
+  var LayerView = WorkspaceView.extend({
     className: 'layers-detail',
     template: Utils.parseTemplate(require('text!../tmpl/layer.html')),
     

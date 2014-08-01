@@ -1,6 +1,7 @@
 define(function(require) {
 	
 	var Backbone = require('backbone');
+	var Data = require('./data');
 	
 	// Layer
   // ----------------------------------------------------------------
@@ -63,7 +64,7 @@ define(function(require) {
 	});
 	
 	var SceneLayerCollection = Backbone.Collection.extend({
-	  url: 'api/v1/layers/',
+	  url: Data.apiPath('layers'),
 	  model: SceneLayerModel,
 	  
 		comparator: function(model) {
@@ -105,7 +106,7 @@ define(function(require) {
   });
   
 	var SceneGridCollection = Backbone.Collection.extend({
-	  url: 'api/v1/grids/',
+	  url: Data.apiPath('grids'),
 	  model: SceneGrid
   });
   
@@ -129,14 +130,14 @@ define(function(require) {
   });
   
 	var SceneMatrixCollection = Backbone.Collection.extend({
-	  url: 'api/v1/matricies/',
+	  url: Data.apiPath('matricies'),
 	  model: SceneMatrix
   });
   
   // Scene
   // ----------------------------------------------------------------
 	var SceneModel = Backbone.Model.extend({
-	  urlRoot: 'api/v1/scenes/',
+	  urlRoot: Data.apiPath('scenes'),
 	  idAttribute: '_id',
 	  
 	  defaults: {

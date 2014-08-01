@@ -12,6 +12,7 @@ define(function(require) {
   // Scene Detail Navbar View
   // ----------------------------------------------------------------
   var SceneLayoutNavView = Backbone.View.extend({
+    el: '#layout-menu',
     initialize: function() {
       this.model = LayoutState.instance();
       this.listenTo(this.model, 'change', this.render);
@@ -30,35 +31,25 @@ define(function(require) {
     onUI: function(evt) {
       evt.preventDefault();
       var state = this.$(evt.currentTarget).attr('data-ui');
-      
-      if (state === 'done') {
-        // DONE: exit to main scenes screen.
-        require('editor/common/models/state').instance().setState('scenes');
-      }
-      else {
-        // Set new state to local navigation:
-        this.model.view(state);
-      }
+      this.model.view(state);
     }
   });
   
   // Scene Layout View
   // ----------------------------------------------------------------
   var SceneLayoutView = ContainerView.extend({
-    className: 'scene-detail',
-    template: Utils.parseTemplate(require('text!../tmpl/layout.html')),
+    el: '#layout',
     
-    initialize: function() {
-      this.$el.html(this.template());
+    initialize: function(options) {
       this.state = LayoutState.instance().reset();
       this.win = $(window).on('resize.scene', _.debounce(_.bind(this.resize, this), 200));
-      this.navbar = this.addSubview(new SceneLayoutNavView({el: this.$('#layout-nav')}));
+      this.navbar = this.addSubview(new SceneLayoutNavView());
       this.sidebar = this.createSubcontainer('#layout-sidebar');
       this.lassie = new Lassie();
       this.resize();
       
       // Create and display a new Lassie instance:
-      this.lassie.loadScene(this.model.id);
+      this.lassie.loadScene(options.id);
       this.lassie.start();
       this.$('#layout-preview').append(this.lassie.view);
       
@@ -76,6 +67,7 @@ define(function(require) {
       
       // Create navbar and sidebar:
       this.listenTo(this.state, 'change:viewState', this.render);
+      this.render();
     },
     
     resize: function() {

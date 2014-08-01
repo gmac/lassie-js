@@ -1,6 +1,6 @@
 var require = {
   urlArgs: 'bust='+ (new Date()).getTime(),
-  baseUrl: 'js',
+  baseUrl: '/js',
   paths: {
     'backbone': 'vendor/backbone',
     'constellation': 'vendor/constellation',

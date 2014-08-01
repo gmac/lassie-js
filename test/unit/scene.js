@@ -4,8 +4,8 @@ var request = require('superagent');
 var mocha = require('mocha');
 var chai = require('chai');
 var expect = chai.expect;
-var Scene = require('mongoose').model('Scene');
-var Layer = require('mongoose').model('Layer');
+var Scene = require('../../app/models/scene');
+var Layer = require('../../app/models/layer');
 
 module.exports = function(url) {
   url += '/scenes';
@@ -64,7 +64,7 @@ module.exports = function(url) {
       Q(Scene.create({slug: 'beach'}))
         .then(function(s) {
           scene = s;
-          return Layer.create({scene_id: scene._id});
+          return Layer.create({scene_id: scene._id, slug: 'coconut'});
         })
         .then(function(l) {
           layer = l;
@@ -93,7 +93,7 @@ module.exports = function(url) {
     });
     
     it('Should PUT updated scene data and return 200 status', function(done) {
-      Scene.create({name: 'beach'}, function(err, scene) {
+      Scene.create({slug: 'beach'}, function(err, scene) {
         request
           .put(url +'/'+ scene._id)
           .send({slug: 'cabana'})
@@ -119,7 +119,7 @@ module.exports = function(url) {
     });
     
     it('Should DEL a defined scene and return 200 status', function(done) {
-      Scene.create({name: 'beach'}, function(err, scene) {
+      Scene.create({slug: 'beach'}, function(err, scene) {
         request
           .del(url +'/'+ scene._id)
           .send()

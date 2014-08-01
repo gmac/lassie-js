@@ -1,7 +1,7 @@
 'use strict';
 
 var generic = require('./generic');
-var Grid = require('mongoose').model('Grid');
+var Grid = require('../models/grid');
 
 exports.getAll = generic.getAll(Grid);
 exports.getOne = generic.getOne(Grid);

@@ -1,0 +1,48 @@
+doctype html
+html(lang="en")
+  head
+    title Lassie Editor
+    link(rel="stylesheet", href="/css/bootstrap.css")
+    link(rel="stylesheet", href="/css/colorbox.css")
+    link(rel="stylesheet", href="/css/lassie.css")
+  body
+    #project-menu.navbar.navbar-default
+      ul.nav.navbar-nav
+        li.back
+          a(href="/projects")
+            span.glyphicon.glyphicon-chevron-left
+            span Projects
+          
+        li(class=path==="setup" ? "active" : "")
+          a(href="/projects/#{project_slug}/setup") Setup
+          
+        li(class=path==="assets" ? "active" : "")
+          a(href="/projects/#{project_slug}/assets") Assets
+          
+        li(class=path==="items" ? "active" : "")
+          a(href="/projects/#{project_slug}/items") Items
+          
+        li(class=path==="scenes" ? "active" : "")
+          a(href="/projects/#{project_slug}/scenes") Scenes
+
+    #lassie
+      .panel.panel-default.editor
+        .navbar.navbar-default
+          .navbar-form.navbar-right
+            button.btn.btn-default(data-ui="add")
+              span.glyphicon.glyphicon-plus
+          label.navbar-brand #{title}
+          
+        fieldset.form-group
+          select#list.form-control(multiple="multiple")
+        
+        #detail
+        
+        fieldset.form-group
+          button.btn.btn-default(data-ui="edit") Edit
+          button.btn.btn-danger(data-ui="remove") Remove
+
+    script().
+      var lassie_project = '#{project_id}';
+    script(src="/js/vendor/require-config.js")
+    script(src="/js/vendor/require.js", data-main="editor/#{path}/main")

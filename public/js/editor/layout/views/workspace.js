@@ -6,7 +6,7 @@ define(function(require) {
   var Utils = require('editor/common/utils');
   var LayoutState = require('../models/state');
 
-  var BaseEditorView = Utils.formCapture(ContainerView.extend({
+  var WorkspaceView = Utils.formCapture(ContainerView.extend({
     initEditor: function() {
       this.scene = LayoutState.get('sceneView').view;
       this.view = new PIXI.DisplayObjectContainer();
@@ -74,5 +74,5 @@ define(function(require) {
     }
   }));
   
-  return BaseEditorView;
+  return WorkspaceView;
 });

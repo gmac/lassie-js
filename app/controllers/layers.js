@@ -4,7 +4,7 @@ var Q = require('q');
 var _ = require('underscore');
 var error = require('./error');
 var generic = require('./generic');
-var Layer = require('mongoose').model('Layer');
+var Layer = require('../models/layer');
 
 exports.reorder = function(req, res, next) {
   var map = {};
@@ -29,7 +29,7 @@ exports.reorder = function(req, res, next) {
     .done();
 };
 
-exports.getAll = generic.getAll(Layer);
+exports.getAll = generic.getAll(Layer, ['scene_id']);
 exports.getOne = generic.getOne(Layer);
 exports.create = generic.create(Layer);
 exports.update = generic.update(Layer);

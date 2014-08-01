@@ -4,9 +4,19 @@ var Q = require('q');
 var _ = require('underscore');
 var error = require('./error');
 
-exports.getAll = function(Model) {
+// Gets all models of the controller's managed model class:
+// allows a query formatting function to be provided.
+exports.getAll = function(Model, query) {
+  
+  // Create a query function for defining a query:
+  function queryFor(req) {
+    if (!query) return {};
+    if (_.isArray(query)) return _.pick(req.query, query);
+    if (_.isFunction(query)) return query(req);
+  }
+  
   return function(req, res, next) {
-    Q(Model.find({}).exec())
+    Q(Model.find(queryFor(req)).exec())
       .then(function(models) {
         res.send(models);
       })
@@ -17,6 +27,7 @@ exports.getAll = function(Model) {
   };
 };
 
+// Gets a single model of the controller's managed model class:
 exports.getOne = function(Model) {
   return function(req, res, next) {
     Q(Model.findById(req.params.id).exec())
@@ -29,6 +40,7 @@ exports.getOne = function(Model) {
   };
 };
 
+// Creates a new model instance within the controller's managed model collection:
 exports.create = function(Model) {
   return function(req, res, next) {
     Q(Model.create(req.body))

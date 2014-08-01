@@ -4,12 +4,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
 
-// Models
-require('./app/models/scene');
-require('./app/models/layer');
-require('./app/models/grid');
-require('./app/models/matrix');
-
 // Implementation:
 var app = express();
 
@@ -22,9 +16,7 @@ app
     res.send(err.statusCode, err.body);
   });
 
-//app.get('/editor', function(req, res) {
-  //res.render(__dirname + '/public/editor.html');
-//});
+app.set('view engine', 'jade');
 
 // Require routes:
 require('./config/routes')(app);

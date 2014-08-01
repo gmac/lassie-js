@@ -1,0 +1,15 @@
+doctype html
+html(lang="en")
+  head
+    title Lassie Editor
+    link(rel="stylesheet", href="/css/bootstrap.css")
+    link(rel="stylesheet", href="/css/colorbox.css")
+    link(rel="stylesheet", href="/css/lassie.css")
+  body
+    #lassie
+    script(src="js/vendor/require-config.js")
+    script(src="js/vendor/require.js")
+    script().
+      require(['editor/projects/main'], function(projects) {
+        projects.autostart();
+      });

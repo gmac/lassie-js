@@ -9,7 +9,7 @@ define(function(require) {
   var Utils = require('editor/common/utils');
   var LayoutState = require('../models/state');
   var GridModel = require('../models/grid');
-  var BaseEditorView = require('./editor');
+  var WorkspaceView = require('./workspace');
   
   // Edit Modal View
   // ----------------------------------------------------------------
@@ -34,7 +34,7 @@ define(function(require) {
   
   // Grid Detail View
   // ----------------------------------------------------------------
-  var GridDetailView = BaseEditorView.extend({
+  var GridDetailView = WorkspaceView.extend({
     template: Utils.parseTemplate(require('text!../tmpl/grid.html')),
     
     initialize: function() {
